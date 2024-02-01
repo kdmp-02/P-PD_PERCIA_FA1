@@ -1,0 +1,138 @@
+---
+title: "Formative Assessment 1 - PERCIA"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+date: "February 1, 2024"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Number 1
+
+<b>1. Write the skewness program, and use it to calculate the skewness coefficient of the four examination subjects in results.txt (results.csv). What can you say about these data?
+
+Pearson has given an approximate formula for the skewness that is easier to calculate than the exact formula given in Equation 2.1.
+
+skew = 3(mean - median) / standard deviation
+
+Write a program to calculate this and apply it to the data in results.txt (results.csv). Is it a reasonable approximation?</b>
+
+#### 1.1 Data Loading:
+
+```{r}
+results <- read.csv("C:/Users/Admin/Desktop/Percia_RFiles/results1.csv")
+results
+```
+
+In this section, the data was loaded from the CSV file into a dataframe named 'results' and displayed the data. This is a good practice to inspect the data to ensure it is loaded correctly.
+
+#### 1.2 Descriptive Statistics
+
+```{r}
+attach(results)
+names(results)
+
+sapply(results[2:5], mean, na.rm = T)
+
+sapply(results[2:5], median, na.rm = T)
+
+sapply(results[2:5], sd, na.rm = T)
+
+```
+
+In this part, the dataframe was attached and had a calculation of the mean, median, and standard deviation for each of the four examination subjects, with the help of fucntion 'sapply'. This provides a summary of the central tendency and variability of the data.
+
+#### 1.3 Skewness Caclculation
+
+```{r}
+skew <- function(x) {
+mean1 <- mean(x, na.rm = T)
+median1 <- median(x, na.rm = T)
+std1 <- sd(x, na.rm = T)
+skew <- (3 * (mean1 - median1)) / std1
+skew}
+
+sapply(results[2:5], skew)
+```
+
+Here, a custom function 'skew' was defined to calculate the skewnewss using Pearson's formula. The function was then applied to each column (subject) and display the skewness values. This helps assess the asymmtery of the data Distribution
+
+### Interpretation:
+
+##### Descritpive Statistics
+
+* The mean scores for both architecture and programming subjects fall within a reasonably high range, indicating a generally strong performance among the students.
+
+* Median values are close to means, suggesting a symmetric distribution.
+
+* Standard deviations are relatively moderate, implying a moderate level of variability around the mean.
+
+##### Skewness Calculation
+
+* The skewness values are close to zero for all subjects, indicating a roughly symmetric distribution.
+
+* The skewness formula used here, based on Pearson's approximation, suggests that the data is not heavily skewed
+
+##### Analysis
+
+The descriptive statistics and skewness calculations collectively indicated a well-distributed and moderately variable set of scores across architecture and programming subjects. The data does not show strong evidence of skewness, suggesting a relatively balanced performance in these subjects.
+
+## Number 2
+
+<b>2.  For the class of 50 students of computing detailed in Exercise 1.1, use R to 
+
+(a)  form the stem-and-leaf display for each gender, and discuss the advantages of this representation compared to the traditional histogram; 
+
+(b)  construct a box-plot for each gender and discuss the findings.</b>
+
+#### 2.1 Stem-and-Leaf Display:
+
+```{r}
+Females <- c( 57, 59, 78, 79, 60, 65, 68, 71, 75, 48, 51, 55, 56, 41, 43,
+              44, 75, 78, 80, 81, 83, 83, 85)
+Males <- c(48, 49, 49, 30, 30, 31, 32, 35, 37, 41, 86, 42, 51, 53, 56,
+           42, 44, 50, 51, 65, 67, 51, 56, 58, 64, 64, 75)
+
+stem(Males)
+
+stem(Females)
+```
+
+A stem-and-leaf was created and displayed for both male and female scores. This type of display helps visualize the distribution of the data, particularly its shape and central tendency.
+
+#### Box Plot:
+
+```{r}
+boxplot(Females, Males, xlab="Males and Females of Class", ylab = "Scores", maim="Boxplot", col = c("pink", "lightblue"))
+```
+
+Box plots was constructed for both male and female scores. Box plots provide a visual summary of the distribution, including the median, quartiles, and potential outliers.
+
+### Interpretation:
+
+##### Stem-and-Leaf Display
+
+* The stem-and-leaf display provides a detailed view of individual scores, their frequency, and overall distribution.
+
+* Both male and female scores appear to be somewhat concentrated around the middle, but further analysis would be needed to make conclusive statements about the distribution.
+
+##### Box Plot
+
+* The box plot visually represents the distribution of of scores for males and females.
+
+* The median lines indicate
+ that the central tendency for both genders are similar.
+ 
+* Females exhibit a slightly wider interquartile range, suggesting a bit more variability in their scores.
+ 
+* Outliers are present in both groups, with a notable outlier in the male scores.
+ 
+##### Analysis
+
+* The stem-and-leaf display and box plot together reveal insights into the distribution and characteristics of male and female scores. While the central tendencies are comparable, the box plot highlights some differences in variability and the presence of outliers, warranting further investigation into potential factors influencing these distinctions.
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
